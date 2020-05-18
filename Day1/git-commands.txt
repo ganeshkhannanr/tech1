@@ -1,0 +1,26 @@
+Create an empty git repository
+++++++++++++++++++++++++++++++
+git init
+
+Config user name and gmail
+++++++++++++++++++++++++++
+git config --global user.name "Jeganathan Swaminthan"
+git config --global user.email "mail2jegan@gmail.com"
+
+Add files into staging area
++++++++++++++++++++++++++++
+git add fruits
+or
+git add *
+
+Commit changes into git repository
+++++++++++++++++++++++++++++++++++
+git commit -m "Initial commit"
+
+In the above command -m stands for commit message.
+
+Check the log activities of your git repo
++++++++++++++++++++++++++++++++++++++++++
+git log
+
+

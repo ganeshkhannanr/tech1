@@ -1,0 +1,55 @@
+Listing all docker images
++++++++++++++++++++++++++
+docker images
+
+Creating a docker container in foreground/interactive mode
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+docker run -it ubuntu:16.04 /bin/bash
+The above command hasn't given docker name and hostname. 
+docker run -it --name server1 --hostname server1 ubuntu:16.04 /bin/bash
+
+In the above command, ubuntu is the docker image name and 16.04 is the tag/version of the docker image.
+
+Creating a docker container in deattached/background mode
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+docker run -dit --name server1 --hostname server1 ubuntu:16.04
+
+Listing all currently running containers
+++++++++++++++++++++++++++++++++++++++++
+docker ps
+
+Listing all containers including stopped ones
++++++++++++++++++++++++++++++++++++++++++++++
+docker ps -a
+
+Finding more details about a docker image
++++++++++++++++++++++++++++++++++++++++++
+docker image inspect ubuntu:16.04
+
+Finding IP Address of a running container
++++++++++++++++++++++++++++++++++++++++++
+docker inspect ubuntu1 | grep IPA
+
+Deleting a Docker Image from Local Registry
++++++++++++++++++++++++++++++++++++++++++++
+docker rmi ubuntu:16.04
+
+Force deleting a running container
++++++++++++++++++++++++++++++++++++++
+docker rm -f server1
+
+Graciously deleting a running container
++++++++++++++++++++++++++++++++++++++++
+docker stop server1
+docker rm server1
+
+Starting a stopped container
+++++++++++++++++++++++++++++++
+docker start server1
+
+Restarting a container
+++++++++++++++++++++++
+docker restart server1
+
+
+
