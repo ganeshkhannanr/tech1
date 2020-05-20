@@ -1,0 +1,71 @@
+- name: This play will automate provisioning of docker containers
+  hosts: localhost
+  tasks:
+     - name: Provision Ubuntu docker container
+       docker_container:
+          docker_host: tcp://0.0.0.0:4236
+          name: "ubuntu{{item}}"
+          image: tektutor/ansible-ubuntu
+          state: started
+          ports:
+             - "2{{item}}:22"
+             - "8{{item}}:80"
+       with_sequence: start=1 end=4 format="%03x"
+
+     - name: Provision CentOS docker container
+       docker_container:
+          docker_host: tcp://0.0.0.0:4236
+          name: "centos{{item}}"
+          image: tektutor/ansible-centos
+          state: started
+          ports:
+             - "3{{item}}:22"
+             - "9{{item}}:80"
+       with_sequence: start=1 end=4 format="%03x"
+
+- name : This play will install, configure and deploy web page into tomcat
+  hosts: all
+  vars:
+    provisioner_tool: Docker
+    cfg_mgr_tool: Ansible
+  tasks:
+     - name: Install apache2 in Ubuntu machine
+       when: ansible_distribution == "Ubuntu" and ansible_os_family == "Debian"
+       apt: name=apache2 state=latest update_cache=yes
+
+     - name: Create the custom web root folder for apache2 server
+       file: path=/var/html state=directory mode=0777
+
+     - name: Configure apache2 web root folder  
+       when: ansible_distribution == "Ubuntu" and ansible_os_family == "Debian"
+       copy: src=000-default.conf dest=/etc/apache2/sites-available/000-default.conf
+
+     - name: Grant permission for the custom web root folder
+       when: ansible_distribution == "Ubuntu" and ansible_os_family == "Debian"
+       copy: src=apache2.conf dest=/etc/apache2/apache2.conf
+
+     - name: Restart apache2 server
+       when: ansible_distribution == "Ubuntu" and ansible_os_family == "Debian"
+       service: name=apache2 state=restarted
+
+     - name: Capture IP Address of the ansible nodes
+       command: hostname -i
+       register: ip_addr
+
+     - name: Retrieve Hostname of the ansible nodes
+       command: hostname
+       register: hostname
+
+     - name: Deploy our custom html page
+       template: src=index.html.j2 dest=/var/html/index.html
+
+- name: This play will test apache2 deployments
+  hosts: localhost
+  tasks:
+    - name: Navigate to apache2 web page on Ubuntu boxes
+      shell: "curl http://localhost:8{{item}}"
+      with_sequence: start=1 end=2 format=%03x
+
+    - name: Navigate to apache2 web page on CentOS boxes
+      shell: "curl http://localhost:9{{item}}"
+      with_sequence: start=1 end=2 format=%03x

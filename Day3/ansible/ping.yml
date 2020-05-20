@@ -1,0 +1,17 @@
+- name: This play will ping all docker containers
+  hosts: all
+  tasks:
+    - name: Ping the container
+      ping: 
+
+    - name: Print IP address of container
+      command: hostname -i
+      register: output1
+
+    - debug: var=output1["stdout"]
+
+    - name: Print hostname of the container
+      command: hostname
+      register: output2
+     
+    - debug: var=output2.stdout
