@@ -5,6 +5,7 @@
        docker_container:
           docker_host: tcp://0.0.0.0:4236
           name: "ubuntu{{item}}"
+          hostname: "ubuntu{{item}}"
           image: tektutor/ansible-ubuntu
           state: started
           ports:
@@ -16,6 +17,7 @@
        docker_container:
           docker_host: tcp://0.0.0.0:4236
           name: "centos{{item}}"
+          hostname: "centos{{item}}"
           image: tektutor/ansible-centos
           state: started
           ports:
@@ -33,6 +35,18 @@
        when: ansible_distribution == "Ubuntu" and ansible_os_family == "Debian"
        apt: name=apache2 state=latest update_cache=yes
 
+     - name: Fix the metalink issue in CentOS boxes
+       when: ansible_distribution == "CentOS" and ansible_os_family == "RedHat"
+       copy: src=epel.repo dest=/etc/yum.repos.d/epel.repo
+
+     - name: Install Extra Packages For Enterprise Linux(EPEL) in CentOS machine
+       when: ansible_distribution == "CentOS" and ansible_os_family == "RedHat"
+       yum: name=epel-release state=latest 
+
+     - name: Install apache2 in CentOS machine
+       when: ansible_distribution == "CentOS" and ansible_os_family == "RedHat"
+       yum: name=httpd state=latest
+
      - name: Create the custom web root folder for apache2 server
        file: path=/var/html state=directory mode=0777
 
@@ -44,9 +58,17 @@
        when: ansible_distribution == "Ubuntu" and ansible_os_family == "Debian"
        copy: src=apache2.conf dest=/etc/apache2/apache2.conf
 
-     - name: Restart apache2 server
+     - name: Configure apache2 web root folder and grant permission to the folder
+       when: ansible_distribution == "CentOS" and ansible_os_family == "RedHat"
+       copy: src=httpd.conf dest=/etc/httpd/conf/httpd.conf 
+
+     - name: Restart apache2 server in Ubuntu
        when: ansible_distribution == "Ubuntu" and ansible_os_family == "Debian"
        service: name=apache2 state=restarted
+
+     - name: Restart apache2 server in CentOS
+       when: ansible_distribution == "CentOS" and ansible_os_family == "RedHat"
+       service: name=httpd enabled=true state=restarted
 
      - name: Capture IP Address of the ansible nodes
        command: hostname -i
