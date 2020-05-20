@@ -1,0 +1,4 @@
+- name: Configure apache2 web root folder and grant permission to the folder
+  copy: src=httpd.conf dest=/etc/httpd/conf/httpd.conf 
+  notify:
+    - Restart apache2 server in CentOS 

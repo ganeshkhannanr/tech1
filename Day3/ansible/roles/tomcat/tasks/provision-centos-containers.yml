@@ -1,0 +1,11 @@
+- name: Provision CentOS docker container
+  docker_container:
+     docker_host: tcp://0.0.0.0:4236
+     name: "centos{{item}}"
+     hostname: "centos{{item}}"
+     image: tektutor/ansible-centos
+     state: started
+     ports:
+        - "3{{item}}:22"
+        - "9{{item}}:80"
+  with_sequence: start=1 end=4 format="%03x"

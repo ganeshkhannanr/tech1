@@ -1,0 +1,8 @@
+- name: This playbook demonstrates the use of ansible vault feature
+  hosts: localhost
+  vars_files:
+     - my_env 
+  tasks:
+    - name: Print all the environment settings
+      debug: var=item.value
+      with_dict: "{{env}}"

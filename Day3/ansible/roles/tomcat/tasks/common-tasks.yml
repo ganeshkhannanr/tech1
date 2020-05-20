@@ -1,0 +1,13 @@
+- name: Create the custom web root folder for apache2 server
+  file: path=/var/html state=directory mode=0777
+
+- name: Capture IP Address of the ansible nodes
+  command: hostname -i
+  register: ip_addr
+
+- name: Retrieve Hostname of the ansible nodes
+  command: hostname
+  register: hostname
+
+- name: Deploy our custom html page
+  template: src=index.html.j2 dest=/var/html/index.html

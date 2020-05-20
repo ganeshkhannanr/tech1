@@ -1,0 +1,12 @@
+- name: Demonstrates use of list variable and looping list data
+  hosts: ubuntu 
+  vars:
+    software_tools:
+       - vim
+       - tree
+       - net-tools
+  tasks:
+    - name: Install software tools
+      apt: name="{{item}}" state=latest update_cache=yes
+      with_list: "{{software_tools}}"
+      

@@ -1,0 +1,4 @@
+- name: Demonstrates how to use your custom role in a playbook
+  hosts: all
+  roles:
+    - tomcat

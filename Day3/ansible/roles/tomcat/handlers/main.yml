@@ -1,0 +1,7 @@
+---
+# handlers file for tomcat
+- name: Restart apache2 server in CentOS
+  service: name=httpd enabled=true state=restarted
+
+- name: Restart apache2 server in Ubuntu
+  service: name=apache2 state=restarted
