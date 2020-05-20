@@ -1,0 +1,5 @@
+- name: Configure apache2 web root folder  
+  copy: src=000-default.conf dest=/etc/apache2/sites-available/000-default.conf
+
+- name: Grant permission for the custom web root folder
+  copy: src=apache2.conf dest=/etc/apache2/apache2.conf

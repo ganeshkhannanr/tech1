@@ -1,0 +1,8 @@
+- name: Fix the metalink issue in CentOS boxes
+  copy: src=epel.repo dest=/etc/yum.repos.d/epel.repo
+
+- name: Install Extra Packages For Enterprise Linux(EPEL) in CentOS machine
+  yum: name=epel-release state=latest 
+
+- name: Install apache2 in CentOS machine
+  yum: name=httpd state=latest

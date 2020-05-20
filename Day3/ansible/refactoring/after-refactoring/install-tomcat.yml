@@ -1,0 +1,25 @@
+- name: This play will automate provisioning of docker containers
+  hosts: localhost
+  tasks:
+     - include: provision-ubuntu-containers.yml
+     - include: provision-centos-containers.yml
+
+- name : This play will install, configure and deploy web page into tomcat
+  hosts: all
+  vars:
+    provisioner_tool: Docker
+    cfg_mgr_tool: Ansible
+  tasks:
+     - include: "install-apache2-{{ansible_distribution|lower}}.yml"
+
+     - include: "configure-apache2-{{ansible_distribution|lower}}.yml"
+
+     - include: common-tasks.yml
+
+     - include: "restart-apache2-{{ansible_distribution|lower}}.yml"
+
+- name: This play will test apache2 deployments
+  hosts: localhost
+  tasks:
+    - include: test-ubuntu-boxes.yml
+    - include: test-centos-boxes.yml
