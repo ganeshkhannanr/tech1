@@ -1,0 +1,9 @@
+[all]
+ubuntu001
+centos001
+
+[centos]
+centos001
+
+[ubuntu]
+ubuntu001
