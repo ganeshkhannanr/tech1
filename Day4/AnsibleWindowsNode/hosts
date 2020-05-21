@@ -1,0 +1,8 @@
+[winhost]
+54.209.221.223
+
+[winhost:vars]
+ansible_user=Administrator
+ansible_password=rps*@123
+ansible_connection=winrm
+ansible_winrm_server_cert_validation=ignore
