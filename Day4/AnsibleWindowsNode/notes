@@ -11,3 +11,7 @@ Invoke-Expression ((New-Object System.Net.Webclient).DownloadString('https://raw
 </powershell>
 
 Ports 3389, 5986 and All ICMP must be opened.
+
+ansible -i hosts winhost -m win_ping
+ansible -i hosts winhost -m win_whoami
+ansible -i hosts winhost -m win_hostname
