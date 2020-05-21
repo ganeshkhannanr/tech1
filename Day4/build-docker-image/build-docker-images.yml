@@ -1,0 +1,10 @@
+- name: This playbook will demonstrate automating docker image build
+  hosts: localhost 
+  tasks:
+    - name: Build ubuntu docker image
+      docker_image:
+        docker_host: tcp://localhost:4236
+        name: "tektutor/ansible-ubuntu"
+        dockerfile: UbuntuDockerfile
+        path: .
+        

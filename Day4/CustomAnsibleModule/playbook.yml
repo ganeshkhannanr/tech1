@@ -1,0 +1,8 @@
+- name: Demonstrates using custom ansible module
+  hosts:  localhost
+  tasks:
+    - name: Invoke hello custom ansible module 
+      hello: msg="Hello Ansible!"
+      register:  result
+
+    - debug: var=result
