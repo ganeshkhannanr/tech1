@@ -1,0 +1,2 @@
+INSTALLATION DOCKER HINT
+https://linuxconfig.org/how-to-install-docker-in-rhel-8
